@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Test</title>
+  <style>
+    li {
+      height: 300px;
+    }
+
+    li > img {
+      height: 100%;
+    }
+  </style>
+</head>
+<body ng-app="test">
+  <script src="bower_components/angular/angular.js"></script>
+  <script src="angular-img-lazy-load.js"></script>
+
+  <ul ng-controller="TestController">
+    <li ng-repeat="img in imgs">
+      <img ng-src="{{img}}" alt="" />
+    </li>
+  </ul>
+
+  <script charset="utf-8">
+    angular.module('test', ['angular-img-lazy-load'])
+    .controller('TestController', function($scope) {
+      $scope.imgs = [
+        'http://www.memecreator.org/static/images/memes/809494.jpg',
+        'http://m.memegen.com/zz36xl.jpg',
+        'http://blog.williecheong.com/wp-content/uploads/2013/12/ghk6gy.jpg',
+        'http://a.memegen.com/j5lept.gif',
+        'http://i.qkme.me/3q65ps.jpg',
+        'http://patrickarlt.github.io/dev-summit-talk-angular-js/i-know.jpg',
+        'http://www.memecreator.org/static/images/memes/2279025.jpg',
+        'http://sd.keepcalm-o-matic.co.uk/i/keep-calm-and-learn-angularjs.png',
+        'http://cdn.memegenerator.net/instances/250x250/33192590.jpg',
+        'http://djebbz.github.io/presentation-livescript/meme.png',
+        'http://memecrunch.com/meme/PUH2/angularjs/image.jpg',
+        'http://cdn.memegenerator.net/instances/500x/52243995.jpg',
+        'http://cdn.memegenerator.net/instances/46773765.jpg',
+        'http://cdn.memegenerator.net/instances/250x250/52590908.jpg',
+        'http://cdn.memegenerator.net/instances/500x/50339936.jpg'
+      ];
+    });
+  </script>
+</body>
+</html>

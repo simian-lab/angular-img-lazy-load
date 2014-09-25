@@ -1,0 +1,28 @@
+{
+  "name": "angular-img-lazy-load",
+  "version": "1.0.0",
+  "description": "An angular ng-src drop-in replacement that makes images magically lazy load.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://ivancamilov@github.com/simian-lab/angular-img-lazy-load.git"
+  },
+  "keywords": [
+    "Angular",
+    "lazy",
+    "load"
+  ],
+  "author": "Simian <dev@simian.co>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/simian-lab/angular-img-lazy-load/issues"
+  },
+  "homepage": "https://github.com/simian-lab/angular-img-lazy-load",
+  "devDependencies": {
+    "browser-sync": "^1.5.1",
+    "gulp": "^3.8.8"
+  }
+}
