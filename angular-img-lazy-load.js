@@ -118,21 +118,12 @@ angular.module('angular-img-lazy-load', [])
     // I check the lazy-load images that have yet to
     // be rendered.
     function checkImages() {
-
-      // Log here so we can see how often this
-      // gets called during page activity.
-      console.log( "Checking for visible images..." );
-
       var visible = [];
       var hidden = [];
 
       // Determine the window dimensions.
-      var windowHeight = win[0].innerHeight;
-      var scrollTop = (win[0].pageYOffset !== undefined) ? win[0].pageYOffset : (doc[0].documentElement || doc[0].body.parentNode || doc[0].body).scrollTop;
-
-      // Calculate the viewport offsets.
-      var topFoldOffset = scrollTop;
-      var bottomFoldOffset = ( topFoldOffset + windowHeight );
+      var windowHeight =  (win[0].innerHeight || doc[0].documentElement.clientHeight);
+      var windowWidth = (win[0].innerWidth || doc[0].documentElement.clientWidth);
 
       // Query the DOM for layout and seperate the
       // images into two different categories: those
@@ -141,7 +132,7 @@ angular.module('angular-img-lazy-load', [])
       for ( var i = 0 ; i < images.length ; i++ ) {
         var image = images[ i ];
 
-        if ( image.isVisible( topFoldOffset, bottomFoldOffset ) ) {
+        if ( image.isVisible( windowHeight, windowWidth ) ) {
           visible.push( image );
         }
         else {
@@ -253,49 +244,17 @@ angular.module('angular-img-lazy-load', [])
     // PUBLIC METHODS.
     // ---
 
-    // I determine if the element is above the given
-    // fold of the page.
-    function isVisible( topFoldOffset, bottomFoldOffset ) {
+    // I determine if the element is visible in the viewport
+    function isVisible( windowHeight, windowWidth ) {
+      var rect = element[0].getBoundingClientRect();
 
-      // If the element is not visible because it
-      // is hidden, don't bother testing it.
-      // if ( ! element.visible() ) {
-      //   return( false );
-      // }
-
-      // If the height has not yet been calculated,
-      // the cache it for the duration of the page.
-      if ( height === null ) {
-        height = element.prop('offsetHeight');
-      }
-
-      // Update the dimensions of the element.
-      var top = element[0].getBoundingClientRect().top;
-      var bottom = ( top + height );
-
-      // Return true if the element is:
-      // 1. The top offset is in view.
-      // 2. The bottom offset is in view.
-      // 3. The element is overlapping the viewport.
-      return(
-        (
-          ( top <= bottomFoldOffset ) &&
-          ( top >= topFoldOffset )
-        )
-        ||
-        (
-          ( bottom <= bottomFoldOffset ) &&
-          ( bottom >= topFoldOffset )
-        )
-        ||
-        (
-          ( top <= topFoldOffset ) &&
-          ( bottom >= bottomFoldOffset )
-        )
+      return (
+          rect.bottom >= 0 &&
+          rect.right >= 0 &&
+          rect.top <= windowHeight &&
+          rect.left <= windowWidth
       );
-
     }
-
 
     // I move the cached source into the live source.
     function render() {
