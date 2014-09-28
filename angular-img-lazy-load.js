@@ -1,6 +1,8 @@
 'use strict';
 
 angular.module('angular-img-lazy-load', [])
+
+// We disable Angular's ng-src directive so we can use our own.
 .config(function($provide) {
   $provide.decorator('ngSrcDirective', ['$delegate', function($delegate) {
     $delegate.shift();
@@ -55,6 +57,10 @@ angular.module('angular-img-lazy-load', [])
     // I start monitoring the given image for visibility
     // and then render it when necessary.
     function addImage( image ) {
+      // add styleable loading class
+      image.setLoadingClass();
+      image.addRepositionEvent();
+
       images.push( image );
 
       if ( ! renderTimer ) {
@@ -69,7 +75,6 @@ angular.module('angular-img-lazy-load', [])
 
     // I remove the given image from the render queue.
     function removeImage( image ) {
-      // Remove the given image from the render queue.
       for ( var i = 0 ; i < images.length ; i++ ) {
         if ( images[ i ] === image ) {
           images.splice( i, 1 );
@@ -134,6 +139,8 @@ angular.module('angular-img-lazy-load', [])
 
         if ( image.isVisible( windowHeight, windowWidth ) ) {
           visible.push( image );
+          // remove styleable loading class
+          image.unsetLoadingClass();
         }
         else {
           hidden.push( image );
@@ -213,7 +220,8 @@ angular.module('angular-img-lazy-load', [])
     // Return the public API.
     return({
       addImage: addImage,
-      removeImage: removeImage
+      removeImage: removeImage,
+      recheckImages: windowChanged
     });
 
   })();
@@ -262,7 +270,6 @@ angular.module('angular-img-lazy-load', [])
       renderSource();
     }
 
-
     // I set the interpolated source value reported
     // by the directive / AngularJS.
     function setSource( newSource ) {
@@ -272,11 +279,22 @@ angular.module('angular-img-lazy-load', [])
       }
     }
 
+    function setLoadingClass() {
+      element.addClass('lazy-unloaded-image');
+    }
+
+    function unsetLoadingClass() {
+      element.removeClass('lazy-unloaded-image');
+      element.addClass('lazy-loaded-image');
+    }
+
+    function addRepositionEvent() {
+      element.bind('imageRepositioned', lazyLoader.recheckImages);
+    }
 
     // ---
     // PRIVATE METHODS.
     // ---
-
 
     // I load the lazy source value into the actual
     // source value of the image element.
@@ -284,12 +302,14 @@ angular.module('angular-img-lazy-load', [])
       element[ 0 ].src = source;
     }
 
-
     // Return the public API.
     return({
       isVisible: isVisible,
       render: render,
-      setSource: setSource
+      setSource: setSource,
+      setLoadingClass: setLoadingClass,
+      unsetLoadingClass: unsetLoadingClass,
+      addRepositionEvent: addRepositionEvent
     });
 
   }
