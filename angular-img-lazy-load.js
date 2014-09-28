@@ -182,8 +182,8 @@ angular.module('angular-img-lazy-load', [])
       isWatchingWindow = true;
 
       // Listen for window changes.
-      win.on( "resize", windowChanged );
-      win.on( "scroll", windowChanged );
+      win.bind( "resize", windowChanged );
+      win.bind( "scroll", windowChanged );
 
       // Set up a timer to watch for document-height changes.
       documentTimer = setInterval( checkDocumentHeight, documentDelay );
@@ -194,8 +194,8 @@ angular.module('angular-img-lazy-load', [])
       isWatchingWindow = false;
 
       // Stop watching for window changes.
-      win.off( "resize" );
-      win.off( "scroll" );
+      win.unbind( "resize", windowChanged );
+      win.unbind( "scroll", windowChanged );
 
       // Stop watching for document changes.
       clearInterval( documentTimer );
