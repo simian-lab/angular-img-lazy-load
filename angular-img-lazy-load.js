@@ -1,6 +1,8 @@
 'use strict';
 
 angular.module('angular-img-lazy-load', [])
+
+// We disable Angular's ng-src directive so we can use our own.
 .config(function($provide) {
   $provide.decorator('ngSrcDirective', ['$delegate', function($delegate) {
     $delegate.shift();
@@ -69,7 +71,6 @@ angular.module('angular-img-lazy-load', [])
 
     // I remove the given image from the render queue.
     function removeImage( image ) {
-      // Remove the given image from the render queue.
       for ( var i = 0 ; i < images.length ; i++ ) {
         if ( images[ i ] === image ) {
           images.splice( i, 1 );
@@ -261,7 +262,6 @@ angular.module('angular-img-lazy-load', [])
       isRendered = true;
       renderSource();
     }
-
 
     // I set the interpolated source value reported
     // by the directive / AngularJS.
