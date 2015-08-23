@@ -1,3 +1,4 @@
+(function(window, angular, undefined) {
 'use strict';
 
 angular.module('angular-img-lazy-load', [])
@@ -337,3 +338,5 @@ angular.module('angular-img-lazy-load', [])
     }
   };
 });
+
+})(window, window.angular)

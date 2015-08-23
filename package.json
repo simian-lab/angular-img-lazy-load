@@ -4,7 +4,10 @@
   "description": "An angular ng-src drop-in replacement that makes images magically lazy load.",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "clean": "rm -rf dist",
+    "prebuild": "npm run clean",
+    "build": "mkdir -p dist && uglifyjs angular-img-lazy-load.js --compress --source-map dist/angular-img-lazy-load.min.js.map --source-map-root .. --source-map-url ../dist/angular-img-lazy-load.js.map -o dist/angular-img-lazy-load.min.js"
   },
   "repository": {
     "type": "git",
@@ -23,6 +26,7 @@
   "homepage": "https://github.com/simian-lab/angular-img-lazy-load",
   "devDependencies": {
     "browser-sync": "^1.5.1",
-    "gulp": "^3.8.8"
+    "gulp": "^3.8.8",
+    "uglify-js": "^2.4.23"
   }
 }
