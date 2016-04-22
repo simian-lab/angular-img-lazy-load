@@ -140,8 +140,6 @@ angular.module('angular-img-lazy-load', [])
 
         if ( image.isVisible( windowHeight, windowWidth ) ) {
           visible.push( image );
-          // remove styleable loading class
-          image.unsetLoadingClass();
         }
         else {
           hidden.push( image );
@@ -284,11 +282,6 @@ angular.module('angular-img-lazy-load', [])
       element.addClass('lazy-unloaded-image');
     }
 
-    function unsetLoadingClass() {
-      element.removeClass('lazy-unloaded-image');
-      element.addClass('lazy-loaded-image');
-    }
-
     function addRepositionEvent() {
       element.bind('imageRepositioned', lazyLoader.recheckImages);
     }
@@ -301,6 +294,10 @@ angular.module('angular-img-lazy-load', [])
     // source value of the image element.
     function renderSource() {
       element[ 0 ].src = source;
+      element.on('load', function(e) {
+        element.removeClass('lazy-unloaded-image');
+        element.addClass('lazy-loaded-image');
+      });
     }
 
     // Return the public API.
@@ -309,7 +306,6 @@ angular.module('angular-img-lazy-load', [])
       render: render,
       setSource: setSource,
       setLoadingClass: setLoadingClass,
-      unsetLoadingClass: unsetLoadingClass,
       addRepositionEvent: addRepositionEvent
     });
 
